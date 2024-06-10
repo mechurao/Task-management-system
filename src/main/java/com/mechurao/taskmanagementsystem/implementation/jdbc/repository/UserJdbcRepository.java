@@ -1,5 +1,7 @@
 package com.mechurao.taskmanagementsystem.implementation.jdbc.repository;
 
+import com.mechurao.taskmanagementsystem.api.exception.InternalErrorException;
+import com.mechurao.taskmanagementsystem.api.exception.ResourceNotFoundException;
 import com.mechurao.taskmanagementsystem.domain.User;
 import com.mechurao.taskmanagementsystem.implementation.jdbc.mapper.UserRowMapper;
 
@@ -42,10 +44,10 @@ public class UserJdbcRepository {
         try{
             return jdbcTemplate.queryForObject(GET_BY_ID, userRowMapper, id);
         }catch (EmptyResultDataAccessException e){
-            return null;
+            throw new ResourceNotFoundException("User with id " + id + " not found");
         }catch (DataAccessException e){
             logger.error("Error while getting user by id", e);
-            return null;
+            throw new InternalErrorException("Error while getting user by id");
         }
     }
 }
