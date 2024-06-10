@@ -1,12 +1,11 @@
 package com.mechurao.taskmanagementsystem.controller;
 
 import com.mechurao.taskmanagementsystem.api.UserService;
+import com.mechurao.taskmanagementsystem.api.request.UserAddRequest;
 import com.mechurao.taskmanagementsystem.domain.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,6 +26,11 @@ public class UserController {
     @GetMapping("{id}")
     public ResponseEntity<User> getById(@PathVariable("id") Long id){
         return ResponseEntity.ok().body(userService.get(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<Long> add(@RequestBody UserAddRequest request){
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.add(request));
     }
 
 }
