@@ -7,7 +7,7 @@ import com.mechurao.taskmanagementsystem.domain.Project;
 import java.util.List;
 
 public interface ProjectService {
-    ProjectService get(long id);
+    Project get(long id);
     List<Project> getAll();
     List<Project> getAllByUser(long userId);
     void delete(long id);
