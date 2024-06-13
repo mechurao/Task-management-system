@@ -1,10 +1,20 @@
 package com.mechurao.taskmanagementsystem.domain;
 
-import lombok.Value;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
-@Value
-public class User {
-    long id;
-    String name;
-    String email;
+@Data
+public final class User {
+    private final long id;
+    private final String name;
+    private final String email;
+
+    public User(long id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
+
 }
