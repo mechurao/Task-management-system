@@ -39,4 +39,11 @@ public class ProjectEntity {
         this.description = description;
         this.createdAt = OffsetDateTime.now();
     }
+
+    public ProjectEntity(UserEntity user, String name, String description, OffsetDateTime createdAt) {
+        this.user = user;
+        this.name = name;
+        this.description = description;
+        this.createdAt = createdAt;
+    }
 }
