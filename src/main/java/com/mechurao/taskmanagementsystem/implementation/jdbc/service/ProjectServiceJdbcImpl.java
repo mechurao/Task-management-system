@@ -5,6 +5,7 @@ import com.mechurao.taskmanagementsystem.api.request.ProjectAddRequest;
 import com.mechurao.taskmanagementsystem.api.request.ProjectEditRequest;
 import com.mechurao.taskmanagementsystem.domain.Project;
 import com.mechurao.taskmanagementsystem.implementation.jdbc.repository.ProjectJdbcRepository;
+import com.mechurao.taskmanagementsystem.implementation.jdbc.repository.TaskJdbcRepository;
 import com.mechurao.taskmanagementsystem.implementation.jdbc.repository.UserJdbcRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,12 @@ public class ProjectServiceJdbcImpl implements ProjectService {
 
     private final ProjectJdbcRepository repository;
     private final UserJdbcRepository userJdbcRepository;
+    private final TaskJdbcRepository taskJdbcRepository;
 
-    public ProjectServiceJdbcImpl(ProjectJdbcRepository repository, UserJdbcRepository userJdbcRepository) {
+    public ProjectServiceJdbcImpl(ProjectJdbcRepository repository, UserJdbcRepository userJdbcRepository, TaskJdbcRepository taskJdbcRepository) {
         this.repository = repository;
         this.userJdbcRepository = userJdbcRepository;
+        this.taskJdbcRepository = taskJdbcRepository;
     }
 
     @Override
@@ -36,6 +39,7 @@ public class ProjectServiceJdbcImpl implements ProjectService {
     @Override
     public void delete(long id) {
         if(this.get(id) != null){
+            taskJdbcRepository.deleteAllByProject(id);
             repository.delete(id);
         }
     }

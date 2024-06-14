@@ -35,6 +35,7 @@ public class ProjectJdbcRepository {
     private static final String INSERT;
     private static final String UPDATE;
     private static final String DELETE;
+    private static final String DELETE_ALL_BY_USER;
 
     static {
         logger = LoggerFactory.getLogger(ProjectJdbcRepository.class);
@@ -44,6 +45,7 @@ public class ProjectJdbcRepository {
         INSERT = "INSERT INTO project (id, user_id, name, description, created_at) VALUES (next value for project_id_seq, ?, ?, ?, ?)";
         UPDATE = "UPDATE project SET name = ?, description = ? WHERE id = ?";
         DELETE = "DELETE FROM project WHERE id = ?";
+        DELETE_ALL_BY_USER = "DELETE FROM project WHERE user_id = ?";
     }
 
     public ProjectJdbcRepository(JdbcTemplate jdbcTemplate, ProjectRowMapper rowMapper) {
@@ -95,6 +97,14 @@ public class ProjectJdbcRepository {
         }
     }
 
+    public void deleteAllByUser(long userId){
+        try{
+            jdbcTemplate.update(DELETE_ALL_BY_USER, userId);
+        }catch (DataAccessException e){
+            logger.error("Error while deleting by user",e);
+            throw new InternalErrorException("Error while deleting by user");
+        }
+    }
 
 
     public List<Project> getAll() {
