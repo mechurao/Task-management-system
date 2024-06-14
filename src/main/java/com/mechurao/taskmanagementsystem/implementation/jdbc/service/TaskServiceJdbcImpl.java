@@ -3,14 +3,18 @@ package com.mechurao.taskmanagementsystem.implementation.jdbc.service;
 import com.mechurao.taskmanagementsystem.api.ProjectService;
 import com.mechurao.taskmanagementsystem.api.TaskService;
 import com.mechurao.taskmanagementsystem.api.UserService;
+import com.mechurao.taskmanagementsystem.api.exception.BadRequestException;
 import com.mechurao.taskmanagementsystem.api.request.TaskAddRequest;
 import com.mechurao.taskmanagementsystem.api.request.TaskEditRequest;
+import com.mechurao.taskmanagementsystem.domain.Project;
 import com.mechurao.taskmanagementsystem.domain.Task;
 import com.mechurao.taskmanagementsystem.domain.TaskStatus;
 import com.mechurao.taskmanagementsystem.implementation.jdbc.repository.TaskJdbcRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class TaskServiceJdbcImpl implements TaskService {
 
     private final TaskJdbcRepository repository;
@@ -25,27 +29,40 @@ public class TaskServiceJdbcImpl implements TaskService {
 
     @Override
     public long add(TaskAddRequest request) {
-        return 0;
+        return repository.add(request);
     }
 
     @Override
-    public void edit(long id, TaskEditRequest request) {
-
+    public void edit(long taskId, TaskEditRequest request) {
+        if(this.get(taskId) != null){
+            repository.update(taskId, request);
+        }
     }
 
     @Override
-    public void changeStatus(long id, TaskStatus status) {
-
+    public void changeStatus(long taskId, TaskStatus status) {
+        if(this.get(taskId) != null){
+            repository.updateStatus(taskId, status);
+        }
     }
 
     @Override
     public void assignProject(long taskId, long projectId) {
-
+        final Task task = this.get(taskId);
+        final Project project = projectService.get(projectId);
+        if(task != null && project != null){
+            if(task.getUserId() != project.getUserId()){
+                throw  new BadRequestException("Task and project must be owned by same user");
+            }
+            repository.updateProject(taskId, projectId);
+        }
     }
 
     @Override
-    public void delete(long id) {
-
+    public void delete(long taskId) {
+        if(this.get(taskId) != null){
+            repository.delete(taskId);
+        }
     }
 
     @Override
