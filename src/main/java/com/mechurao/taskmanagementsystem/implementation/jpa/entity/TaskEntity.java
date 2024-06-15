@@ -24,10 +24,12 @@ public class TaskEntity {
     private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id")
+    @JoinColumn(name = "project_id", nullable = true)
+    @Setter
     private ProjectEntity project;
 
     @Column(nullable = false)
+    @Setter
     private String name;
 
     @Column(nullable = true)
