@@ -7,11 +7,13 @@ import com.mechurao.taskmanagementsystem.domain.Project;
 import com.mechurao.taskmanagementsystem.implementation.jdbc.repository.ProjectJdbcRepository;
 import com.mechurao.taskmanagementsystem.implementation.jdbc.repository.TaskJdbcRepository;
 import com.mechurao.taskmanagementsystem.implementation.jdbc.repository.UserJdbcRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Profile("jdbc")
 public class ProjectServiceJdbcImpl implements ProjectService {
 
     private final ProjectJdbcRepository repository;

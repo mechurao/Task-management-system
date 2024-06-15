@@ -6,12 +6,13 @@ import com.mechurao.taskmanagementsystem.domain.User;
 import com.mechurao.taskmanagementsystem.implementation.jdbc.repository.ProjectJdbcRepository;
 import com.mechurao.taskmanagementsystem.implementation.jdbc.repository.TaskJdbcRepository;
 import com.mechurao.taskmanagementsystem.implementation.jdbc.repository.UserJdbcRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Profile("jdbc")
 public class UserServiceJdbcImpl implements UserService {
 
     private final UserJdbcRepository repository;
