@@ -66,7 +66,7 @@ public class ProjectServiceJpaImpl implements ProjectService {
         final User user = userService.get(request.getUserId());
         final UserEntity userEntity = new UserEntity(user.getId(), user.getName(), user.getEmail());
         try{
-            return repository.save(new ProjectEntity(userEntity, request.getName(), request.getDescription(), OffsetDateTime.now())).getId();
+            return repository.save(new ProjectEntity(user.getId(), userEntity, request.getName(), request.getDescription(), OffsetDateTime.now())).getId();
         }catch (DataAccessException e){
             logger.error("Error while adding project", e);
             throw new InternalErrorException("Project not found");
